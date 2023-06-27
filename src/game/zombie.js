@@ -7,13 +7,14 @@ export default class Zombie extends Phaser.Physics.Arcade.Sprite{
      * @param {number} x
      * @param {number} y 
      * @param {string} texture
+     * @param {number} hp
     
      */
 
         constructor(scene, x, y, texture){
             super(scene, x, y, texture)
             this.setScale(0.4)
-        
+            
         }
 }
 
