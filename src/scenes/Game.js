@@ -43,18 +43,8 @@ export default class Game extends Phaser.Scene {
     // this.add.existing(this.player2)
     // this.physics.add.existing(this.player2)
     // this.physics.add.collider(this.player, this.player2);
-
-    
-    for (let i = 0; i < 5; i++) {
-      const x = Phaser.Math.Between(110, 800);
-      const y = Phaser.Math.Between(110, 800);
-
-      this.zombie = new Zombie(this, x, y, "zombie");
-      this.add.existing(this.zombie);
-      this.physics.add.existing(this.zombie)
-      console.log(this.zombie);
-      this.physics.add.collider(this.player, this.zombie);
-      this.physics.add.collider(this.zombie, this.zombie);
+    this.zombiespawn();
+      setInterval(this.zombiespawn, 5000)
     }
 
 
@@ -62,7 +52,7 @@ export default class Game extends Phaser.Scene {
     // const y = Phaser. Math.Between(150, 750)
     // const zombie = this.physics.add.sprite(x, y, 'zombie')
     // .setScale(0.4)
-  }
+  
 
   update() {
     if (this.cursors.left.isDown) {
@@ -94,4 +84,17 @@ export default class Game extends Phaser.Scene {
 //   enemy.setVelocity(velocityX, velocityY);
 
 }
+
+zombiespawn(){
+  for (let i = 0; i < 5; i++) {
+  const x = Phaser.Math.Between(110, 800);
+  const y = Phaser.Math.Between(110, 800);
+  
+  this.zombie = new Zombie(this, x, y, "zombie");
+  this.add.existing(this.zombie);
+  this.physics.add.existing(this.zombie)
+  console.log(this.zombie);
+  this.physics.add.collider(this.player, this.zombie);
+  this.physics.add.collider(this.zombie, this.zombie);
+}}
 }
