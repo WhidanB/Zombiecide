@@ -18,7 +18,6 @@ export default class Game extends Phaser.Scene {
     super("game");
   }
 
-
   preload() {
     this.load.image("background", "./assets/background.png");
     this.load.image("player", "./assets/heros.png");
@@ -28,6 +27,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    this.physics.world.setBounds(0, 0, 800, 800);
     this.add.image(400, 400, "background").setScale(0.8);
     // this.add.image(100, 100, 'player')
     // this.add.image(300, 300, 'zombie')
@@ -37,29 +37,30 @@ export default class Game extends Phaser.Scene {
     // const playerBody = player.body
     this.player = new Player(this, 150, 110, "player");
     this.add.existing(this.player);
-    this.physics.add.existing(this.player)
-    
+    this.physics.add.existing(this.player);
+    this.player.setCollideWorldBounds(true);
+
     // this.player2 = new Player(this, 300, 220, "player");
     // this.add.existing(this.player2)
     // this.physics.add.existing(this.player2)
     // this.physics.add.collider(this.player, this.player2);
     this.zombiespawn();
-      setInterval(this.zombiespawn, 5000)
-    }
 
 
-    // const x = Phaser. Math.Between(0, 1000)
-    // const y = Phaser. Math.Between(150, 750)
-    // const zombie = this.physics.add.sprite(x, y, 'zombie')
-    // .setScale(0.4)
-  
+    setInterval(this.zombiespawn, 5000);
+  }
+
+
 
   update() {
+
+ 
+
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-200);
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(200);
-    }else if (this.cursors.up.isDown) {
+    } else if (this.cursors.up.isDown) {
       this.player.setVelocityY(-200);
     } else if (this.cursors.down.isDown) {
       this.player.setVelocityY(200);
@@ -67,34 +68,39 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocity(0);
     }
 
-//     enemyChasePlayer(this.zombie, this.player, 200); // Utilisez la vitesse appropriée
-//     }
-//     // this.zombie.enemyFollows(this.player, this.zombie, 100);
-  
+    this.enemyChasePlayer(this.zombie, this.player, 50);
+  }
+
+  enemyChasePlayer(enemy, player, speed) {
+    const angle = Phaser.Math.Angle.Between(
+      enemy.x,
+      enemy.y,
+      player.x,
+      player.y
+    );
+    const velocityX = Math.cos(angle) * speed;
+    const velocityY = Math.sin(angle) * speed;
+
+    enemy.setVelocity(velocityX, velocityY);
+  }
+
+  zombiespawn = () => {
+    for (let i = 0; i < 5; i++) {
+      const x = Phaser.Math.Between(110, 800);
+      const y = Phaser.Math.Between(110, 800);
+
+      this.zombie = new Zombie(this, x, y, "zombie");
+      this.add.existing(this.zombie);
+      this.physics.add.existing(this.zombie);
+      this.zombie.setCollideWorldBounds(true);
+      this.physics.add.collider(this.player, this.zombie);
+      this.zombie.setCollideWorldBounds(true);
+      this.zombie.setImmovable(true);
+      this.enemyChasePlayer(this.zombie, this.player, 100);
+ 
+      };
+    }
+  };
 
 
-// //  const enemyFollows = function(){
-// //   this.physics.moveToObject(this.player, this.zombie, 100);
-// //   }
-//  enemyChasePlayer(enemy, player, speed) {
-//   const angle = Phaser.Math.Angle.Between(enemy.x, enemy.y, player.x, player.y);
-//   const velocityX = Math.cos(angle) * speed;
-//   const velocityY = Math.sin(angle) * speed;
-  
-//   enemy.setVelocity(velocityX, velocityY);
 
-}
-
-zombiespawn(){
-  for (let i = 0; i < 5; i++) {
-  const x = Phaser.Math.Between(110, 800);
-  const y = Phaser.Math.Between(110, 800);
-  
-  this.zombie = new Zombie(this, x, y, "zombie");
-  this.add.existing(this.zombie);
-  this.physics.add.existing(this.zombie)
-  console.log(this.zombie);
-  this.physics.add.collider(this.player, this.zombie);
-  this.physics.add.collider(this.zombie, this.zombie);
-}}
-}
