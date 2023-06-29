@@ -13,6 +13,11 @@ export default class Game extends Phaser.Scene {
 
   /**@type {Phaser.Types.Input.Keyboard.CursorKeys} */
   cursors;
+  /** @type {Phaser.Physics.Arcade.Sprite} */
+  zombies;
+
+  /**@type {Phaser.Physics.Arcade.Sprite} */
+  child;
 
   constructor() {
     super("game");
@@ -44,33 +49,73 @@ export default class Game extends Phaser.Scene {
     // this.add.existing(this.player2)
     // this.physics.add.existing(this.player2)
     // this.physics.add.collider(this.player, this.player2);
-    this.zombiespawn();
 
+    // this.zombiespawn();
+    console.log(this.zombies);
+    this.zombies = this.physics.add.group({
+      classType: Zombie,
+    });
 
-    setInterval(this.zombiespawn, 5000);
+    for (let i = 0; i < 5; i++) {
+      const x = Phaser.Math.Between(50, 800);
+
+      const y = Phaser.Math.Between(110, 800);
+
+      this.zombies.get(x, y, "zombie");
+    }
+
+    const child = this.zombies.getChildren();
+    console.log(child);
+    child.forEach((e) => {
+      console.log(e);
+      e.body.setCollideWorldBounds(true);
+      e.setImmovable(true);
+      // e.body.onCollide = true;
+      this.enemyChasePlayer(e, this.player, 50);
+    });
+
+    setInterval(this.newSpawn, 5000);
+    // setInterval(this.zombiespawn, 5000);
   }
 
-
-
   update() {
-
- 
+    const child = this.zombies.getChildren();
+    child.forEach((e) => {
+      this.enemyChasePlayer(e, this.player, 50);
+    });
 
     if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-200);
+      this.player.setVelocityX(-100);
     } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(200);
+      this.player.setVelocityX(100);
     } else if (this.cursors.up.isDown) {
-      this.player.setVelocityY(-200);
+      this.player.setVelocityY(-100);
     } else if (this.cursors.down.isDown) {
-      this.player.setVelocityY(200);
+      this.player.setVelocityY(100);
     } else {
       this.player.setVelocity(0);
     }
-
-    this.enemyChasePlayer(this.zombie, this.player, 50);
   }
 
+  zombiespawn = () => {
+    this.zombies = this.physics.add.group({
+      classType: Zombie,
+    });
+    for (let i = 0; i < 5; i++) {
+      let rand = Math.floor(Math.random() * 2 + 1);
+      let x;
+      if (rand == 1) {
+        x = Phaser.Math.Between(50, 300);
+      } else if (rand == 2) {
+        x = Phaser.Math.Between(500, 800);
+      }
+      const y = Phaser.Math.Between(110, 800);
+
+      this.zombies.get(x, y, "zombie");
+
+      this.enemyChasePlayer(this.zombies, this.player, 100);
+    }
+  };
   enemyChasePlayer(enemy, player, speed) {
     const angle = Phaser.Math.Angle.Between(
       enemy.x,
@@ -84,23 +129,17 @@ export default class Game extends Phaser.Scene {
     enemy.setVelocity(velocityX, velocityY);
   }
 
-  zombiespawn = () => {
+  newSpawn() {
+    this.zombies = this.physics.add.group({
+      classType: Zombie,
+    });
+
     for (let i = 0; i < 5; i++) {
-      const x = Phaser.Math.Between(110, 800);
+      const x = Phaser.Math.Between(50, 800);
+
       const y = Phaser.Math.Between(110, 800);
 
-      this.zombie = new Zombie(this, x, y, "zombie");
-      this.add.existing(this.zombie);
-      this.physics.add.existing(this.zombie);
-      this.zombie.setCollideWorldBounds(true);
-      this.physics.add.collider(this.player, this.zombie);
-      this.zombie.setCollideWorldBounds(true);
-      this.zombie.setImmovable(true);
-      this.enemyChasePlayer(this.zombie, this.player, 100);
- 
-      };
+      this.zombies.get(x, y, "zombie");
     }
-  };
-
-
-
+  }
+}

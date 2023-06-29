@@ -1,20 +1,27 @@
 import Phaser from '/src/lib/phaser.js';
+import Player from "/src/game/player.js";
 
 export default class Zombie extends Phaser.Physics.Arcade.Sprite{
 
-        /**
-     * @param {Phaser.Scene} scene
-     * @param {number} x
-     * @param {number} y 
-     * @param {string} texture
-     * @param {number} hp
-    
-     */
+
 
         constructor(scene, x, y, texture){
             super(scene, x, y, texture)
+            scene.physics.add.existing(this);
             this.setScale(0.4)
+            scene.physics.add.collider(scene.player, this);
+            scene.physics.add.collider(this, this)
+            this.body.onCollide = true;
+            
+            
+            
+            
             
         }
-}
+
+    //     preupdate(){
+    //           super.preupdate()
+    //
+    }
+
 
