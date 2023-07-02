@@ -1,0 +1,42 @@
+{
+    "activeFile": "",
+    "expandedProjectPaths": [
+        "assets",
+        ".",
+        "assets/Map"
+    ],
+    "file.lastUsedOpenFilter": "Tous les Fichiers (*)",
+    "fileStates": {
+        "assets/Map/map.tmx": {
+            "scale": 1.436875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.1739886907352,
+                "y": 320.1391909525881
+            }
+        },
+        "assets/Map/tilesheet.tsx": {
+            "scaleInDock": 1
+        },
+        "map.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 356.66666666666663,
+                "y": 316
+            }
+        },
+        "tilesheet.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 1
+        }
+    },
+    "openFiles": [
+    ],
+    "project": "sans titre.tiled-project",
+    "recentFiles": [
+        "map.tmx",
+        "assets/Map/map.tmx",
+        "tilesheet.tsx"
+    ]
+}

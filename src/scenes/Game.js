@@ -24,16 +24,32 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "./assets/background.png");
     this.load.image("player", "./assets/heros.png");
     this.load.image("zombie", "./assets/zombie.png");
+    this.load.image("tiles", "./assets/Tilesheet/tilesheet_complete.png")
+    this.load.tilemapTiledJSON("map", "./assets/map/map.json")
+    // this.load.image("background", "./assets/background.png");
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
+
+
+    const map = this.make.tilemap({
+      key:"map",
+      tileWidth: 32,
+      tileHeight:32
+    });
+    
+    const tileset = map.addTilesetImage("tilesheet", "tiles");
+    const collisionLayer = map.createStaticLayer("Collision", tileset, 0, 0);
+    collisionLayer.setCollisionByProperty({collides: true});
+    const belowLayer = map.createStaticLayer("bottomLayer", tileset, 0, 0)
+    const middleLayer = map.createStaticLayer("middleLayer", tileset, 0, 0)
+    const aboveLayer = map.createStaticLayer("aboveLayer", tileset, 0, 0)
     this.physics.world.setBounds(0, 0, 800, 800);
-    this.add.image(400, 400, "background").setScale(0.8);
+    // this.add.image(400, 400, "background").setScale(0.8);
     // this.add.image(100, 100, 'player')
     // this.add.image(300, 300, 'zombie')
 
@@ -74,8 +90,9 @@ export default class Game extends Phaser.Scene {
       this.enemyChasePlayer(e, this.player, 50);
     });
 
-    setInterval(this.newSpawn, 5000);
-    // setInterval(this.zombiespawn, 5000);
+
+    // setInterval(this.newSpawn, 5000);
+    // // setInterval(this.zombiespawn, 5000);
   }
 
   update() {
@@ -129,17 +146,18 @@ export default class Game extends Phaser.Scene {
     enemy.setVelocity(velocityX, velocityY);
   }
 
-  newSpawn() {
-    this.zombies = this.physics.add.group({
-      classType: Zombie,
-    });
+  // newSpawn() {
+  //   this.zombies = this.physics.add.group({
+  //     classType: Zombie,
+  //   });
 
-    for (let i = 0; i < 5; i++) {
-      const x = Phaser.Math.Between(50, 800);
+  //   for (let i = 0; i < 5; i++) {
+  //     const x = Phaser.Math.Between(50, 800);
 
-      const y = Phaser.Math.Between(110, 800);
+  //     const y = Phaser.Math.Between(110, 800);
 
-      this.zombies.get(x, y, "zombie");
-    }
-  }
+  //     this.zombies.get(x, y, "zombie");
+  //   }
+  // }
+
 }
