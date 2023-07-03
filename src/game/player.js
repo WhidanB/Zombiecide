@@ -7,6 +7,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
      * @param {number} x
      * @param {number} y 
      * @param {string} texture
+     * 
     
      */
 
@@ -15,6 +16,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite{
             this.setScale(0.4)
             scene.physics.add.existing(this);
             const body = this.body
+            this.hp = 100
 
     
     body.setSize(60, this.height * 0.5);

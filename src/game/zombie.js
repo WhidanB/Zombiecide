@@ -15,7 +15,7 @@ export default class Zombie extends Phaser.Physics.Arcade.Sprite{
     body.setSize(60, this.height * 0.5);
     body.setOffset(18,65);
     this.body.onCollide = true;
-            scene.physics.add.collider(scene.player, this);
+            // scene.physics.add.collider(scene.player, this, scene.handleHP());
             scene.physics.add.collider(this, this);
             
             
@@ -24,6 +24,7 @@ export default class Zombie extends Phaser.Physics.Arcade.Sprite{
             
             
         }
+
 
     //     preupdate(){
     //           super.preupdate()

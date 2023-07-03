@@ -19,6 +19,9 @@ export default class Game extends Phaser.Scene {
   /**@type {Phaser.Physics.Arcade.Sprite} */
   child;
 
+  /** @type {Phaser.GameObjects.Text} */
+  hpText;
+
   constructor() {
     super("game");
   }
@@ -56,7 +59,8 @@ export default class Game extends Phaser.Scene {
     // const player = this.physics.add.sprite(150, 110, 'player')
     // .setScale(0.4)
     // const playerBody = player.body
-    this.player = new Player(this, 300, 400, "player");
+    this.player = new Player(this, 300, 400, "player", 100);
+    
     this.add.existing(this.player);
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, objets)
@@ -120,6 +124,12 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.zombies, objets)
     this.physics.add.collider(this.zombies, this.zombies)
     console.log(this.player);
+    const style = {color: '#000', fontsize: 72}
+    this.hpText = this.add.text(400, 700, 'HP: '+ this.player.hp, style)
+      .setOrigin(0.5, 0)
+
+      console.log(this.hpText);
+      this.physics.add.collider(this.player, this.zombies, this.handleHP(this.player, this.hpText))
   }
 
   update() {
@@ -180,17 +190,18 @@ if (rand2 == 1){
     enemy.setVelocity(velocityX, velocityY);
   }
 
-  // newSpawn() {
-  //   this.zombies = this.physics.add.group({
-  //     classType: Zombie,
-  //   });
+  handleHP(player, text)
+  {
 
-  //   for (let i = 0; i < 5; i++) {
-  //     const x = Phaser.Math.Between(50, 800);
+      
 
-  //     const y = Phaser.Math.Between(110, 800);
+      player.hp - 10;
 
-  //     this.zombies.get(x, y, "zombie");
-  //   }
-  // }
+      const value = "HP:" + player.hp
+      console.log("collision");
+      console.log(player.hp);
+      text.text = value
+  }
+
+
 }
