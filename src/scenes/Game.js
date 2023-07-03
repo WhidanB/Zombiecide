@@ -26,73 +26,100 @@ export default class Game extends Phaser.Scene {
   preload() {
     this.load.image("player", "./assets/heros.png");
     this.load.image("zombie", "./assets/zombie.png");
-    this.load.image("tiles", "./assets/Tilesheet/tilesheet_complete.png")
-    this.load.tilemapTiledJSON("map", "./assets/map/map.json")
+    this.load.image("tiles", "./assets/Tilesheet/tilesheet_complete.png");
+    this.load.tilemapTiledJSON("map", "./assets/map/map.json");
     // this.load.image("background", "./assets/background.png");
 
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
   create() {
-
-
     const map = this.make.tilemap({
-      key:"map",
+      key: "map",
       tileWidth: 32,
-      tileHeight:32
+      tileHeight: 32,
     });
-    
+
+    console.log(map);
     const tileset = map.addTilesetImage("tilesheet", "tiles");
-    const collisionLayer = map.createStaticLayer("Collision", tileset, 0, 0);
-    collisionLayer.setCollisionByProperty({collides: true});
-    const belowLayer = map.createStaticLayer("bottomLayer", tileset, 0, 0)
-    const middleLayer = map.createStaticLayer("middleLayer", tileset, 0, 0)
-    const aboveLayer = map.createStaticLayer("aboveLayer", tileset, 0, 0)
+    const bottomLayer = map.createLayer("bottomLayer", tileset, 0, 0);
+    const middleLayer = map.createLayer("middleLayer", tileset, 0, 0);
+    const objets = map.createLayer("objets", tileset);
+    const aboveLayer = map.createLayer("aboveLayer", tileset, 0, 0);
+    console.log(objets);
+    objets.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 800, 800);
     // this.add.image(400, 400, "background").setScale(0.8);
     // this.add.image(100, 100, 'player')
     // this.add.image(300, 300, 'zombie')
-
+    
     // const player = this.physics.add.sprite(150, 110, 'player')
     // .setScale(0.4)
     // const playerBody = player.body
-    this.player = new Player(this, 150, 110, "player");
+    this.player = new Player(this, 300, 400, "player");
     this.add.existing(this.player);
-    this.physics.add.existing(this.player);
     this.player.setCollideWorldBounds(true);
-
+    this.physics.add.collider(this.player, objets)
+    
     // this.player2 = new Player(this, 300, 220, "player");
     // this.add.existing(this.player2)
     // this.physics.add.existing(this.player2)
     // this.physics.add.collider(this.player, this.player2);
 
     // this.zombiespawn();
-    console.log(this.zombies);
+    // console.log(this.zombies);
     this.zombies = this.physics.add.group({
       classType: Zombie,
     });
 
-    for (let i = 0; i < 5; i++) {
-      const x = Phaser.Math.Between(50, 800);
+    this.zombiespawn();
+    this.time.addEvent({
+      delay: 5000,
+      loop: true,
+      callback: ()=>{ this.zombiespawn()
+      }
+    })
 
-      const y = Phaser.Math.Between(110, 800);
+//     let x;
+//     let y;
+//     let rand1
+//     let rand2
 
-      this.zombies.get(x, y, "zombie");
-    }
+//     for (let i = 0; i < 5; i++) {
+//       rand1 = Math.floor(Math.random()*2 + 1)
+//       rand2 = Math.floor(Math.random()*2 + 1)
+
+//       if (rand1 == 1){
+// x = Phaser.Math.Between(0, 200);
+//       }else if(rand1 == 2){
+//         x = Phaser.Math.Between(600,800);
+//       }
+
+// if (rand2 == 1){
+//   y = Phaser.Math.Between(0, 200);
+//         }else if(rand2 == 2){
+//           y = Phaser.Math.Between(600,800);
+//         }
+
+
+//       this.zombies.get(x, y, "zombie");
+//     }
 
     const child = this.zombies.getChildren();
-    console.log(child);
+    // console.log(child);
     child.forEach((e) => {
-      console.log(e);
+      // console.log(e);
       e.body.setCollideWorldBounds(true);
       e.setImmovable(true);
       // e.body.onCollide = true;
       this.enemyChasePlayer(e, this.player, 50);
     });
 
-
     // setInterval(this.newSpawn, 5000);
     // // setInterval(this.zombiespawn, 5000);
+    this.physics.add.collider(this.zombies, objets)
+    this.physics.add.collider(this.zombies, this.zombies)
+    console.log(this.player);
   }
 
   update() {
@@ -115,22 +142,29 @@ export default class Game extends Phaser.Scene {
   }
 
   zombiespawn = () => {
-    this.zombies = this.physics.add.group({
-      classType: Zombie,
-    });
+    let x;
+    let y;
+    let rand1
+    let rand2
+
     for (let i = 0; i < 5; i++) {
-      let rand = Math.floor(Math.random() * 2 + 1);
-      let x;
-      if (rand == 1) {
-        x = Phaser.Math.Between(50, 300);
-      } else if (rand == 2) {
-        x = Phaser.Math.Between(500, 800);
+      rand1 = Math.floor(Math.random()*2 + 1)
+      rand2 = Math.floor(Math.random()*2 + 1)
+
+      if (rand1 == 1){
+x = Phaser.Math.Between(0, 200);
+      }else if(rand1 == 2){
+        x = Phaser.Math.Between(600,800);
       }
-      const y = Phaser.Math.Between(110, 800);
+
+if (rand2 == 1){
+  y = Phaser.Math.Between(0, 200);
+        }else if(rand2 == 2){
+          y = Phaser.Math.Between(600,800);
+        }
+
 
       this.zombies.get(x, y, "zombie");
-
-      this.enemyChasePlayer(this.zombies, this.player, 100);
     }
   };
   enemyChasePlayer(enemy, player, speed) {
@@ -159,5 +193,4 @@ export default class Game extends Phaser.Scene {
   //     this.zombies.get(x, y, "zombie");
   //   }
   // }
-
 }
