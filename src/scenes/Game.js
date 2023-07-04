@@ -22,6 +22,10 @@ export default class Game extends Phaser.Scene {
   /** @type {Phaser.GameObjects.Text} */
   hpText;
 
+  count = 0
+
+
+
   constructor() {
     super("game");
   }
@@ -43,15 +47,18 @@ export default class Game extends Phaser.Scene {
       tileHeight: 32,
     });
 
-    console.log(map);
+    
     const tileset = map.addTilesetImage("tilesheet", "tiles");
     const bottomLayer = map.createLayer("bottomLayer", tileset, 0, 0);
     const middleLayer = map.createLayer("middleLayer", tileset, 0, 0);
     const objets = map.createLayer("objets", tileset);
     const aboveLayer = map.createLayer("aboveLayer", tileset, 0, 0);
-    console.log(objets);
+    
     objets.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, 800, 800);
+    const style = {color: '#000', fontsize: 72}
+    this.hpText = this.add.text(400, 700, 'Zombies: '+ this.count, style)
+      .setOrigin(0.5, 0)
     // this.add.image(400, 400, "background").setScale(0.8);
     // this.add.image(100, 100, 'player')
     // this.add.image(300, 300, 'zombie')
@@ -123,16 +130,15 @@ export default class Game extends Phaser.Scene {
     // // setInterval(this.zombiespawn, 5000);
     this.physics.add.collider(this.zombies, objets)
     this.physics.add.collider(this.zombies, this.zombies)
-    console.log(this.player);
-    const style = {color: '#000', fontsize: 72}
-    this.hpText = this.add.text(400, 700, 'HP: '+ this.player.hp, style)
-      .setOrigin(0.5, 0)
+   console.log(this.count);
+
 
       console.log(this.hpText);
-      this.physics.add.collider(this.player, this.zombies, this.handleHP(this.player, this.hpText))
+      this.physics.add.collider(this.player, this.zombies)
   }
 
   update() {
+    console.log(this.count);
     const child = this.zombies.getChildren();
     child.forEach((e) => {
       this.enemyChasePlayer(e, this.player, 50);
@@ -149,9 +155,11 @@ export default class Game extends Phaser.Scene {
     } else {
       this.player.setVelocity(0);
     }
+    this.hpText.setText('Zombies: '+ this.count)
   }
 
   zombiespawn = () => {
+    
     let x;
     let y;
     let rand1
@@ -175,6 +183,7 @@ if (rand2 == 1){
 
 
       this.zombies.get(x, y, "zombie");
+      this.count++
     }
   };
   enemyChasePlayer(enemy, player, speed) {
@@ -190,18 +199,20 @@ if (rand2 == 1){
     enemy.setVelocity(velocityX, velocityY);
   }
 
-  handleHP(player, text)
-  {
+
+
+  // handleHP()
+  // {
 
       
 
-      player.hp - 10;
+  //     this.player.hp -= 10;
 
-      const value = "HP:" + player.hp
-      console.log("collision");
-      console.log(player.hp);
-      text.text = value
-  }
+  //     const value = "HP:" + this.player.hp
+  //     console.log("collision");
+  //     console.log(this.player.hp);
+  //     this.hpText.text = value
+  // }
 
 
 }
