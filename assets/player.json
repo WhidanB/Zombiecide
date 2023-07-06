@@ -1,0 +1,167 @@
+{
+	"textures": [
+		{
+			"image": "player.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1180,
+				"h": 215
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "heros.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 28,
+						"y": 43,
+						"w": 136,
+						"h": 213
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 136,
+						"h": 213
+					}
+				},
+				{
+					"filename": "heros-left1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 12,
+						"y": 44,
+						"w": 169,
+						"h": 212
+					},
+					"frame": {
+						"x": 139,
+						"y": 1,
+						"w": 169,
+						"h": 212
+					}
+				},
+				{
+					"filename": "herosRight2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 11,
+						"y": 44,
+						"w": 169,
+						"h": 212
+					},
+					"frame": {
+						"x": 310,
+						"y": 1,
+						"w": 169,
+						"h": 212
+					}
+				},
+				{
+					"filename": "heros-left2.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 44,
+						"w": 192,
+						"h": 202
+					},
+					"frame": {
+						"x": 481,
+						"y": 1,
+						"w": 192,
+						"h": 202
+					}
+				},
+				{
+					"filename": "herosRight3.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 44,
+						"w": 192,
+						"h": 202
+					},
+					"frame": {
+						"x": 675,
+						"y": 1,
+						"w": 192,
+						"h": 202
+					}
+				},
+				{
+					"filename": "heros-left0.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 16,
+						"y": 60,
+						"w": 154,
+						"h": 196
+					},
+					"frame": {
+						"x": 869,
+						"y": 1,
+						"w": 154,
+						"h": 196
+					}
+				},
+				{
+					"filename": "herosRight1.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 192,
+						"h": 256
+					},
+					"spriteSourceSize": {
+						"x": 22,
+						"y": 60,
+						"w": 154,
+						"h": 196
+					},
+					"frame": {
+						"x": 1025,
+						"y": 1,
+						"w": 154,
+						"h": 196
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:23dba102e0a541bea648a870b0d60cfe:50709763d4ada8d8a4b1069d327b3824:86d5339b780aedd87b35e2b7c0a7e11b$"
+	}
+}
